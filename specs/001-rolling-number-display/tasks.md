@@ -271,14 +271,14 @@ description: "Task list for 롤링 숫자 표시 컴포넌트 (Rolling Number Di
 
 **Purpose**: 성능, 문서, 배포, 전체 검증
 
-- [ ] T105 [P] Write Android recomposition test `android/rollingnumber/src/androidTest/kotlin/io/github/komodgn/rollingnumber/RecompositionTest.kt`: a caller composable containing `RollingNumber` recomposes at most once per value change while a 500 ms animation runs
-- [ ] T106 [P] Implement Macrobenchmark `android/benchmark/src/main/kotlin/io/github/komodgn/rollingnumber/benchmark/CheckoutBenchmark.kt` with `FrameTimingMetric` tapping the coupon toggle 10 times on the checkout screen; target "프레임 드랍이 측정 구간의 1% 미만" (SC-002)
-- [ ] T107 Profile iOS sample checkout screen with Instruments Animation Hitches (quickstart §8) and fix any hitch sources in `Sources/RollingNumber/Render/RollingCanvas.swift` / `Sources/RollingNumber/Render/GlyphMeasurer.swift`
-- [ ] T108 [P] Add a fixture coverage check `android/rollingnumber/src/test/kotlin/io/github/komodgn/rollingnumber/fixtures/FixtureCoverageTest.kt` asserting every case id listed in `contracts/fixtures.md` "최소 수록 케이스" exists in `fixtures/diff/`
-- [ ] T109 [P] Write root `README.md`: what the library does, Android install (`io.github.komodgn:rollingnumber`) and iOS install (SPM URL), one-line usage for both platforms, options table, accessibility and reduced-motion behavior, supported OS (Android 7.0+, iOS 15+)
-- [ ] T110 [P] Add KDoc to every public declaration in `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/*.kt` and DocC comments to every public declaration in `Sources/RollingNumber/*.swift`
-- [ ] T111 Configure Maven Central publishing in `android/rollingnumber/build.gradle.kts` (`maven-publish`, `signing`, POM metadata, sources/javadoc jars) and add release workflow `.github/workflows/release.yml` (on tag `v*`: publish Android artifact; SPM uses the same git tag)
-- [ ] T112 Run the full quickstart (`specs/001-rolling-number-display/quickstart.md` §1~§8) on both platforms and record results in `specs/001-rolling-number-display/checklists/validation.md`
+- [X] T105 [P] Write Android recomposition test `android/rollingnumber/src/androidTest/kotlin/io/github/komodgn/rollingnumber/RecompositionTest.kt`: a caller composable containing `RollingNumber` recomposes at most once per value change while a 500 ms animation runs
+- [ ] T106 [P] Implement Macrobenchmark `android/benchmark/src/main/kotlin/io/github/komodgn/rollingnumber/benchmark/CheckoutBenchmark.kt` with `FrameTimingMetric` tapping the coupon toggle 10 times on the checkout screen; target "프레임 드랍이 측정 구간의 1% 미만" (SC-002) — **구현·컴파일 완료, 실제 중급 기기에서 측정 필요**
+- [ ] T107 Profile iOS sample checkout screen with Instruments Animation Hitches (quickstart §8) and fix any hitch sources in `Sources/RollingNumber/Render/RollingCanvas.swift` / `Sources/RollingNumber/Render/GlyphMeasurer.swift` — **macOS 필요**
+- [X] T108 [P] Add a fixture coverage check `android/rollingnumber/src/test/kotlin/io/github/komodgn/rollingnumber/fixtures/FixtureCoverageTest.kt` asserting every case id listed in `contracts/fixtures.md` "최소 수록 케이스" exists in `fixtures/diff/`
+- [X] T109 [P] Write root `README.md`: what the library does, Android install (`io.github.komodgn:rollingnumber`) and iOS install (SPM URL), one-line usage for both platforms, options table, accessibility and reduced-motion behavior, supported OS (Android 7.0+, iOS 15+)
+- [X] T110 [P] Add KDoc to every public declaration in `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/*.kt` and DocC comments to every public declaration in `Sources/RollingNumber/*.swift` — Swift DocC 주석은 작성만 됨
+- [X] T111 Configure Maven Central publishing in `android/rollingnumber/build.gradle.kts` (`maven-publish`, `signing`, POM metadata, sources/javadoc jars) and add release workflow `.github/workflows/release.yml` (on tag `v*`: publish Android artifact; SPM uses the same git tag) — 로컬 staging 저장소 생성까지 확인. 실제 업로드는 secrets 필요. **라이선스(Apache 2.0)와 저장소 URL은 임시값**
+- [ ] T112 Run the full quickstart (`specs/001-rolling-number-display/quickstart.md` §1~§8) on both platforms and record results in `specs/001-rolling-number-display/checklists/validation.md` — **부분 완료: Android(API 36)만 확인, 결과는 checklists/validation.md**
 
 ---
 

@@ -1,0 +1,40 @@
+name: Release
+
+# Push a tag like v0.1.0. The same tag is the Swift Package version (SPM resolves git tags).
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Test
+        run: ./gradlew :android:rollingnumber:testDebugUnitTest
+      - name: Build signed bundle
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          ./gradlew :android:rollingnumber:publishReleasePublicationToStagingRepository \
+            -PVERSION_NAME="${GITHUB_REF_NAME#v}"
+      - name: Upload to Maven Central Portal
+        env:
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+        run: |
+          cd build/staging-repo
+          find . -type f \( -name '*.jar' -o -name '*.aar' -o -name '*.pom' -o -name '*.module' \) | while read f; do
+            md5sum "$f" | cut -d' ' -f1 > "$f.md5"
+            sha1sum "$f" | cut -d' ' -f1 > "$f.sha1"
+          done
+          zip -r ../central-bundle.zip io
+          curl --fail -X POST \
+            -H "Authorization: Bearer ${CENTRAL_TOKEN}" \
+            -F "bundle=@../central-bundle.zip" \
+            "https://central.sonatype.com/api/v1/publisher/upload?publishingType=USER_MANAGED"
