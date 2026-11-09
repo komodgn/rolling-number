@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "kind": "format",
+  "cases": [
+    {
+      "id": "prefix-and-suffix",
+      "spec": "US2-6, FR-004",
+      "input": { "value": "12900", "locale": "ko-KR", "format": { "style": "currency", "currency": "KRW" }, "prefix": "~", "suffix": "/월" },
+      "expect": {
+        "normalized": "12,900",
+        "tokens": [
+          { "kind": "prefix", "key": "AP", "text": "~" },
+          { "kind": "literal", "key": "Lp0", "text": "₩" },
+          { "kind": "int", "key": "I4", "text": "1" },
+          { "kind": "int", "key": "I3", "text": "2" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "9" },
+          { "kind": "int", "key": "I1", "text": "0" },
+          { "kind": "int", "key": "I0", "text": "0" },
+          { "kind": "suffix", "key": "AS", "text": "/월" }
+        ]
+      }
+    },
+    {
+      "id": "fifteen-digits-exact",
+      "spec": "edge: very large numbers",
+      "input": { "value": "123456789012345", "locale": "en-US", "format": { "style": "number" } },
+      "expect": {
+        "normalized": "123,456,789,012,345",
+        "tokens": [
+          { "kind": "int", "key": "I14", "text": "1" },
+          { "kind": "int", "key": "I13", "text": "2" },
+          { "kind": "int", "key": "I12", "text": "3" },
+          { "kind": "group", "key": "G12", "text": "," },
+          { "kind": "int", "key": "I11", "text": "4" },
+          { "kind": "int", "key": "I10", "text": "5" },
+          { "kind": "int", "key": "I9", "text": "6" },
+          { "kind": "group", "key": "G9", "text": "," },
+          { "kind": "int", "key": "I8", "text": "7" },
+          { "kind": "int", "key": "I7", "text": "8" },
+          { "kind": "int", "key": "I6", "text": "9" },
+          { "kind": "group", "key": "G6", "text": "," },
+          { "kind": "int", "key": "I5", "text": "0" },
+          { "kind": "int", "key": "I4", "text": "1" },
+          { "kind": "int", "key": "I3", "text": "2" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "3" },
+          { "kind": "int", "key": "I1", "text": "4" },
+          { "kind": "int", "key": "I0", "text": "5" }
+        ]
+      }
+    }
+  ]
+}

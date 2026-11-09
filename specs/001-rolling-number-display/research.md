@@ -26,6 +26,8 @@
   - 반올림 매핑: HalfUp → Android `RoundingMode.HALF_UP`, iOS `.toNearestOrAwayFromZero`. HalfEven → `HALF_EVEN` / `.toNearestOrEven`. Down → `DOWN` / `.towardZero`. Up → `UP` / `.awayFromZero`.
 - **Rationale**: 스펙 FR-003 결정(각 OS 로케일 규칙). API 30 경계는 `NumberFormatter` 도입 시점이다. 두 Android 경로가 같은 결과를 내는지는 같은 `format/` 픽스처로 API 24, 29, 30, 최신 기기에서 각각 검증한다.
 - **Known risk**: 폴백 `CompactDecimalFormat`과 `NumberFormatter.compactShort()`가 반올림·소수 자리 처리에서 다를 수 있다. 다르면 축약 표기는 API 레벨과 상관없이 `CompactDecimalFormat` 하나로 통일하는 것을 우선 검토한다.
+  - **검증 결과 (2026-11-10, T060)**: 두 경로 모두 기본 소수 자리를 명시적으로 지정하고 `CompactDecimalFormat`의 유효 숫자 모드를 끄면 `format/compact.json`(en-US K/M, ko-KR 천/만, half-up/half-even) 결과가 같다. Robolectric API 29·33과 실제 기기 API 36에서 확인했다. 통일은 필요 없었다.
+  - **알려진 차이 (미해결)**: Android는 구분자를 항상 패턴대로 넣고(`ON_ALIGNED`, 레거시와 동일), iOS `.automatic`은 로케일의 최소 그룹 자릿수를 따른다. es-ES처럼 4자리 수에 구분자를 넣지 않는 로케일에서 두 플랫폼 결과가 다를 수 있다. 현재 픽스처 로케일(ko, en, de, ja, hi, ar)에는 해당하지 않는다.
 
 ## R3. 정확한 10진 값 (FR-001, 큰 수 엣지 케이스)
 

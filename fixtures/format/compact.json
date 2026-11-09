@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "kind": "format",
+  "cases": [
+    {
+      "id": "compact-en-thousand",
+      "spec": "US2-5",
+      "input": { "value": "1200", "locale": "en-US", "format": { "style": "compact" } },
+      "expect": {
+        "normalized": "1.2",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "1" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "2" },
+          { "kind": "literal", "key": "Ls0", "text": "K" }
+        ]
+      }
+    },
+    {
+      "id": "compact-en-below-thousand",
+      "spec": "edge: 999 → 1K",
+      "input": { "value": "999", "locale": "en-US", "format": { "style": "compact" } },
+      "expect": {
+        "normalized": "999",
+        "tokens": [
+          { "kind": "int", "key": "I2", "text": "9" },
+          { "kind": "int", "key": "I1", "text": "9" },
+          { "kind": "int", "key": "I0", "text": "9" }
+        ]
+      }
+    },
+    {
+      "id": "compact-en-million-half-up",
+      "spec": "FR-002",
+      "input": { "value": "1250000", "locale": "en-US", "format": { "style": "compact" } },
+      "expect": {
+        "normalized": "1.3",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "1" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "3" },
+          { "kind": "literal", "key": "Ls0", "text": "M" }
+        ]
+      }
+    },
+    {
+      "id": "compact-en-million-half-even",
+      "spec": "FR-002",
+      "input": { "value": "1250000", "locale": "en-US", "format": { "style": "compact", "rounding": "halfEven" } },
+      "expect": {
+        "normalized": "1.2",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "1" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "2" },
+          { "kind": "literal", "key": "Ls0", "text": "M" }
+        ]
+      }
+    },
+    {
+      "id": "compact-ko-cheon",
+      "spec": "Assumptions: locale compact units",
+      "input": { "value": "1200", "locale": "ko-KR", "format": { "style": "compact" } },
+      "expect": {
+        "normalized": "1.2",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "1" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "2" },
+          { "kind": "literal", "key": "Ls0", "text": "천" }
+        ]
+      }
+    },
+    {
+      "id": "compact-ko-man",
+      "spec": "Assumptions: locale compact units",
+      "input": { "value": "13000", "locale": "ko-KR", "format": { "style": "compact" } },
+      "expect": {
+        "normalized": "1.3",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "1" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "3" },
+          { "kind": "literal", "key": "Ls0", "text": "만" }
+        ]
+      }
+    }
+  ]
+}

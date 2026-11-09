@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "kind": "format",
+  "cases": [
+    {
+      "id": "percent-en-one-fraction",
+      "spec": "US2-4",
+      "input": { "value": "0.125", "locale": "en-US", "format": { "style": "percent", "minFraction": 1 } },
+      "expect": {
+        "normalized": "12.5",
+        "tokens": [
+          { "kind": "int", "key": "I1", "text": "1" },
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "5" },
+          { "kind": "literal", "key": "Ls0", "text": "%" }
+        ]
+      }
+    },
+    {
+      "id": "percent-ko-default-rounds-half-up",
+      "spec": "FR-002",
+      "input": { "value": "0.125", "locale": "ko-KR", "format": { "style": "percent" } },
+      "expect": {
+        "normalized": "13",
+        "tokens": [
+          { "kind": "int", "key": "I1", "text": "1" },
+          { "kind": "int", "key": "I0", "text": "3" },
+          { "kind": "literal", "key": "Ls0", "text": "%" }
+        ]
+      }
+    },
+    {
+      "id": "percent-de-space-before-sign",
+      "spec": "FR-003",
+      "input": { "value": "0.125", "locale": "de-DE", "format": { "style": "percent", "minFraction": 1 } },
+      "expect": {
+        "normalized": "12.5",
+        "tokens": [
+          { "kind": "int", "key": "I1", "text": "1" },
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "," },
+          { "kind": "frac", "key": "F0", "text": "5" },
+          { "kind": "literal", "key": "Ls0", "text": " %" }
+        ]
+      }
+    }
+  ]
+}
