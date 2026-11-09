@@ -200,16 +200,16 @@ description: "Task list for 롤링 숫자 표시 컴포넌트 (Rolling Number Di
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T078 [P] [US3] Create `fixtures/session/us3-rapid.json` containing `rapid-taps-single-end` exactly as in `contracts/fixtures.md` §3 plus a 15,000 → 12,000 → 15,000 reversal case (one `start`, one `end`)
-- [ ] T079 [P] [US3] Write Android continuity tests `android/rollingnumber/src/test/kotlin/io/github/komodgn/rollingnumber/logic/motion/MotionContinuityTest.kt`: sample every 16 ms with a virtual clock for US3 scenario 1 (15,000 → 12,000, reverse at 40%) and scenario 2 (9,900 → 12,900, reverse at 40%); assert no element moves more than 0.35 line or 0.35 alpha or 0.35 widthFactor between frames, no two `ElementState`s share a key, no element has two layers with the same text, and the reversed "1" fades out from its current alpha
-- [ ] T080 [P] [US3] Write iOS continuity tests `Tests/RollingNumberTests/Logic/MotionContinuityTests.swift` with exactly the same cases as T079
+- [X] T078 [P] [US3] Create `fixtures/session/us3-rapid.json` containing `rapid-taps-single-end` exactly as in `contracts/fixtures.md` §3 plus a 15,000 → 12,000 → 15,000 reversal case (one `start`, one `end`)
+- [X] T079 [P] [US3] Write Android continuity tests `android/rollingnumber/src/test/kotlin/io/github/komodgn/rollingnumber/logic/motion/MotionContinuityTest.kt`: sample every 16 ms with a virtual clock for US3 scenario 1 (15,000 → 12,000, reverse at 40%) and scenario 2 (9,900 → 12,900, reverse at 40%); assert no element moves more than 0.35 line or 0.35 alpha or 0.35 widthFactor between frames, no two `ElementState`s share a key, no element has two layers with the same text, and the reversed "1" fades out from its current alpha
+- [ ] T080 [P] [US3] Write iOS continuity tests `Tests/RollingNumberTests/Logic/MotionContinuityTests.swift` with exactly the same cases as T079 — **코드 작성 완료, macOS에서 빌드·테스트 검증 대기**
 
 ### Implementation for User Story 3
 
-- [ ] T081 [US3] Implement retargeting in `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/logic/motion/MotionEngine.kt` and `logic/motion/ElementState.kt`: keep current value and velocity for springs; tween restarts from the current value; if the new target glyph already exists as a layer, return that layer to offsetY 0 / alpha 1 and send other layers out ("없을 때만 새 레이어를 만든다"); revive an exiting `ElementState` when its key reappears; recompute direction against the previous target value
-- [ ] T082 [US3] Implement the same retargeting in `Sources/RollingNumber/Logic/Motion/MotionEngine.swift` and `Sources/RollingNumber/Logic/Motion/ElementState.swift`
-- [ ] T083 [P] [US3] Add a coupon toggle button (10% coupon) to `android/sample/src/main/kotlin/io/github/komodgn/rollingnumber/sample/CheckoutScreen.kt` suitable for rapid tapping
-- [ ] T084 [P] [US3] Add the same coupon toggle to `samples/ios/CouponCheckout/Sources/CheckoutView.swift`
+- [X] T081 [US3] Implement retargeting in `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/logic/motion/MotionEngine.kt` and `logic/motion/ElementState.kt`: keep current value and velocity for springs; tween restarts from the current value; if the new target glyph already exists as a layer, return that layer to offsetY 0 / alpha 1 and send other layers out ("없을 때만 새 레이어를 만든다"); revive an exiting `ElementState` when its key reappears; recompute direction against the previous target value
+- [ ] T082 [US3] Implement the same retargeting in `Sources/RollingNumber/Logic/Motion/MotionEngine.swift` and `Sources/RollingNumber/Logic/Motion/ElementState.swift` — **코드 작성 완료, macOS에서 빌드·테스트 검증 대기**
+- [X] T083 [P] [US3] Add a coupon toggle button (10% coupon) to `android/sample/src/main/kotlin/io/github/komodgn/rollingnumber/sample/CheckoutScreen.kt` suitable for rapid tapping
+- [ ] T084 [P] [US3] Add the same coupon toggle to `samples/ios/CouponCheckout/Sources/CheckoutView.swift` — **코드 작성 완료, macOS에서 빌드·테스트 검증 대기**
 
 **Checkpoint**: 연타 시 끊김·깜빡임·중복 없이 마지막 값으로 정착, 종료 이벤트 1회
 
@@ -223,18 +223,18 @@ description: "Task list for 롤링 숫자 표시 컴포넌트 (Rolling Number Di
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T085 [P] [US4] Create `fixtures/session/us4-group.json`: members `discount` (label "할인액") and `total` (label "최종가") in order; both change at the same `t` → both `start` at the same `t`, one `announce` "할인액 -₩1,900, 최종가 ₩12,900" and no individual announcements; only `total` changes → "최종가 ₩12,900"; member with `announce: false` excluded; a second member changing while the first is pending → single announcement after both settle
-- [ ] T086 [P] [US4] Write Android Compose UI test `android/rollingnumber/src/androidTest/kotlin/io/github/komodgn/rollingnumber/RollingNumberGroupTest.kt`: in a `Row` inside `RollingNumberGroup`, increase the middle number's digit count and assert, via `mainClock` manual advancing, that the right neighbor's x position changes by less than 35% of the width delta per frame and ends at the final position
+- [X] T085 [P] [US4] Create `fixtures/session/us4-group.json`: members `discount` (label "할인액") and `total` (label "최종가") in order; both change at the same `t` → both `start` at the same `t`, one `announce` "할인액 -₩1,900, 최종가 ₩12,900" and no individual announcements; only `total` changes → "최종가 ₩12,900"; member with `announce: false` excluded; a second member changing while the first is pending → single announcement after both settle
+- [X] T086 [P] [US4] Write Android Compose UI test `android/rollingnumber/src/androidTest/kotlin/io/github/komodgn/rollingnumber/RollingNumberGroupTest.kt`: in a `Row` inside `RollingNumberGroup`, increase the middle number's digit count and assert, via `mainClock` manual advancing, that the right neighbor's x position changes by less than 35% of the width delta per frame and ends at the final position
 
 ### Implementation for User Story 4
 
-- [ ] T087 [US4] Extend `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/logic/AnnouncementCoordinator.kt` to multi-member groups per data-model §11 (order by `groupOrder` then registration; join `"{라벨} {전체 표시 문자열}"` with `", "`; announce once when all pending members are `idle`; exclude members with announce off) and add `logic/GroupClock.kt` (one shared frame time source so changes in the same frame start in the same frame)
-- [ ] T088 [US4] Implement the same in `Sources/RollingNumber/Logic/AnnouncementCoordinator.swift` and `Sources/RollingNumber/Logic/GroupClock.swift`
-- [ ] T089 [US4] Implement Android `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/RollingNumberGroup.kt` (`CompositionLocal` providing coordinator + `GroupClock`; nearest group wins; group-level `AnnouncementNode`) and make `RollingNumber.kt` join the nearest group and honor `groupOrder`; `FrameDriver.kt` uses the group clock when present
-- [ ] T090 [US4] Implement iOS `Sources/RollingNumber/RollingNumberGroup.swift` (environment-provided coordinator + clock, nearest group wins), `rollingGroupOrder(_:)` in `Sources/RollingNumber/RollingNumberModifiers.swift`, and make `RollingNumber.swift`/`Render/RollingCanvas.swift` use the group clock
-- [ ] T091 [P] [US4] Add a grouped summary row [원가][할인액][배송비][최종가] with labels and shipping rule (free at ≥ 30,000 KRW) to `android/sample/src/main/kotlin/io/github/komodgn/rollingnumber/sample/CheckoutScreen.kt`
-- [ ] T092 [P] [US4] Add the same grouped summary row to `samples/ios/CouponCheckout/Sources/CheckoutView.swift`
-- [ ] T093 [US4] Manually verify quickstart §5 #2 and §6 #3 on both platforms (neighbors move without jumps; merged announcement spoken once, not cut off)
+- [X] T087 [US4] Extend `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/logic/AnnouncementCoordinator.kt` to multi-member groups per data-model §11 (order by `groupOrder` then registration; join `"{라벨} {전체 표시 문자열}"` with `", "`; announce once when all pending members are `idle`; exclude members with announce off) and add `logic/GroupClock.kt` (one shared frame time source so changes in the same frame start in the same frame) — 구현 변경: Android는 같은 프레임의 `withFrameNanos`가 같은 시각을 받으므로 별도 GroupClock 없이 같은 프레임 시작이 보장됨
+- [ ] T088 [US4] Implement the same in `Sources/RollingNumber/Logic/AnnouncementCoordinator.swift` and `Sources/RollingNumber/Logic/GroupClock.swift` — **코드 작성 완료, macOS에서 빌드·테스트 검증 대기**
+- [X] T089 [US4] Implement Android `android/rollingnumber/src/main/kotlin/io/github/komodgn/rollingnumber/RollingNumberGroup.kt` (`CompositionLocal` providing coordinator + `GroupClock`; nearest group wins; group-level `AnnouncementNode`) and make `RollingNumber.kt` join the nearest group and honor `groupOrder`; `FrameDriver.kt` uses the group clock when present — 그룹 알림은 `View.announceForAccessibility` 사용 (research R7)
+- [ ] T090 [US4] Implement iOS `Sources/RollingNumber/RollingNumberGroup.swift` (environment-provided coordinator + clock, nearest group wins), `rollingGroupOrder(_:)` in `Sources/RollingNumber/RollingNumberModifiers.swift`, and make `RollingNumber.swift`/`Render/RollingCanvas.swift` use the group clock — **코드 작성 완료, macOS에서 빌드·테스트 검증 대기**
+- [X] T091 [P] [US4] Add a grouped summary row [원가][할인액][배송비][최종가] with labels and shipping rule (free at ≥ 30,000 KRW) to `android/sample/src/main/kotlin/io/github/komodgn/rollingnumber/sample/CheckoutScreen.kt`
+- [ ] T092 [P] [US4] Add the same grouped summary row to `samples/ios/CouponCheckout/Sources/CheckoutView.swift` — **코드 작성 완료, macOS에서 빌드·테스트 검증 대기**
+- [ ] T093 [US4] Manually verify quickstart §5 #2 and §6 #3 on both platforms (neighbors move without jumps; merged announcement spoken once, not cut off) — Android 이웃 이동은 기기 테스트로 확인함. **병합 알림 낭독과 iOS는 수동 확인 필요**
 
 **Checkpoint**: 결제 화면 요약 줄 전체가 같이 움직이고 알림이 한 번에 읽힘
 

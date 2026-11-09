@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "kind": "session",
+  "cases": [
+    {
+      "id": "coupon-changes-both-one-merged-announcement",
+      "spec": "US5-6, US4-2, FR-019a",
+      "members": [
+        { "id": "discount", "label": "할인액" },
+        { "id": "total", "label": "최종가" }
+      ],
+      "steps": [
+        { "t": 0, "set": { "discount": { "text": "-₩900", "value": "-900" }, "total": { "text": "₩13,900", "value": "13900" } } },
+        { "t": 100, "set": { "discount": { "text": "-₩1,900", "value": "-1900" }, "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "discount", "t": 100 },
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "discount" },
+        { "event": "end", "member": "total" },
+        { "announce": "할인액 -₩1,900, 최종가 ₩12,900" }
+      ]
+    },
+    {
+      "id": "only-total-changes",
+      "spec": "US5-7",
+      "members": [
+        { "id": "discount", "label": "할인액" },
+        { "id": "total", "label": "최종가" }
+      ],
+      "steps": [
+        { "t": 0, "set": { "discount": { "text": "-₩900", "value": "-900" }, "total": { "text": "₩13,900", "value": "13900" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "최종가 ₩12,900" }
+      ]
+    },
+    {
+      "id": "member-with-announcements-off-is-excluded",
+      "spec": "FR-019a",
+      "members": [
+        { "id": "discount", "label": "할인액", "announce": false },
+        { "id": "total", "label": "최종가" }
+      ],
+      "steps": [
+        { "t": 0, "set": { "discount": { "text": "-₩900", "value": "-900" }, "total": { "text": "₩13,900", "value": "13900" } } },
+        { "t": 100, "set": { "discount": { "text": "-₩1,900", "value": "-1900" }, "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "discount", "t": 100 },
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "discount" },
+        { "event": "end", "member": "total" },
+        { "announce": "최종가 ₩12,900" }
+      ]
+    },
+    {
+      "id": "second-member-changes-while-first-pending",
+      "spec": "FR-019a",
+      "members": [
+        { "id": "discount", "label": "할인액" },
+        { "id": "total", "label": "최종가" }
+      ],
+      "steps": [
+        { "t": 0, "set": { "discount": { "text": "-₩900", "value": "-900" }, "total": { "text": "₩13,900", "value": "13900" } } },
+        { "t": 100, "set": { "discount": { "text": "-₩1,900", "value": "-1900" } } },
+        { "t": 400, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 3000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "discount", "t": 100 },
+        { "event": "start", "member": "total", "t": 400 },
+        { "event": "end", "member": "discount" },
+        { "event": "end", "member": "total" },
+        { "announce": "할인액 -₩1,900, 최종가 ₩12,900" }
+      ]
+    }
+  ]
+}
