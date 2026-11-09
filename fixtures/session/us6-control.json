@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "kind": "session",
+  "cases": [
+    {
+      "id": "disable-mid-animation-completes-immediately",
+      "spec": "US6-3, FR-016",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 200, "disableAnimation": "total" },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total", "t": 200 },
+        { "announce": "₩12,000", "t": 200 }
+      ]
+    },
+    {
+      "id": "changes-while-disabled-have-no-events",
+      "spec": "FR-016, FR-020",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 50, "disableAnimation": "total" },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": [
+        { "announce": "₩12,000", "t": 100 }
+      ]
+    },
+    {
+      "id": "item-key-change-cancels-without-end",
+      "spec": "FR-013, FR-020, SC-007",
+      "members": [ { "id": "row" } ],
+      "steps": [
+        { "t": 0, "set": { "row": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "row": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 200, "itemKey": { "row": "order-2" }, "set": { "row": { "text": "₩30,000", "value": "30000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "row", "t": 100 }
+      ]
+    },
+    {
+      "id": "same-item-key-animates-normally",
+      "spec": "FR-013",
+      "members": [ { "id": "row" } ],
+      "steps": [
+        { "t": 0, "itemKey": { "row": "order-1" }, "set": { "row": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "itemKey": { "row": "order-1" }, "set": { "row": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "row", "t": 100 },
+        { "event": "end", "member": "row" },
+        { "announce": "₩12,000" }
+      ]
+    },
+    {
+      "id": "animate-first-display",
+      "spec": "FR-013",
+      "members": [ { "id": "total", "animateFirstDisplay": true } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 0 },
+        { "event": "end", "member": "total" }
+      ]
+    }
+  ]
+}
