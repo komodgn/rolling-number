@@ -86,6 +86,7 @@
     - Android: 숫자(또는 그룹)마다 화면에 보이지 않는 1px 알림 전용 시맨틱 노드를 `liveRegion = Polite`로 두고, 알림 시점에만 텍스트를 바꾼다. API 36에서 `announceForAccessibility`가 사용 중단되어 라이브 리전을 기본으로 한다.
     - iOS: `UIAccessibility.post(notification: .announcement, argument:)`에 `.accessibilitySpeechQueueAnnouncement: true` 속성 문자열을 넘겨, 읽던 내용을 끊지 않고 뒤에 이어 읽게 한다.
 - **Risk / 검증 필요**: TalkBack이 숨김 노드의 라이브 리전 변경을 무시할 수 있다. 기기 검증(quickstart 접근성 절차)에서 실패하면 API 35 이하에서는 `View.announceForAccessibility`로 대체한다.
+- **구현 중 변경 (2026-11-10)**: Android는 숨김 라이브 리전 노드 대신 `View.announceForAccessibility`를 모든 API 레벨에서 쓴다. 숨김 노드는 메인 노드의 `clearAndSetSemantics`에 지워지거나, 지우지 않으면 TalkBack이 초점을 줄 수 있는 별도 노드가 되어 FR-018("노드 하나")과 충돌했다. 이 API는 API 36에서 사용 중단 표시만 됐고 여전히 TYPE_ANNOUNCEMENT를 보낸다. 알림 판단 규칙(정착 후 1회, 마지막 값만, 그룹 병합)은 `session/` 픽스처로 검증했다. **실제 TalkBack 낭독은 아직 기기에서 확인하지 않았다(T077)**. API 36 이상에서 낭독되지 않으면 라이브 리전 방식으로 되돌린다.
 - **Alternatives considered**: 메인 노드를 라이브 리전으로 지정(목표가 바뀌는 즉시 읽혀 "정착 후 1회" 규칙을 지키기 어려워 탈락).
 
 ## R8. 동작 줄이기 감지 (FR-017)

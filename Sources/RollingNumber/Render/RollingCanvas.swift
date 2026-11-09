@@ -23,6 +23,10 @@ final class RollingModel: ObservableObject {
 
     func update(_ number: FormattedNumber) {
         session.update(number)
+        syncAnimating()
+    }
+
+    func syncAnimating() {
         if session.isAnimating != isAnimating { isAnimating = session.isAnimating }
     }
 

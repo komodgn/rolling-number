@@ -15,7 +15,9 @@ public struct RollingNumber: View {
     private let suffix: String
 
     @Environment(\.locale) private var environmentLocale
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.rollingOptions) private var options
+    @Environment(\.rollingGroup) private var group
     @StateObject private var model = RollingModel()
 
     /// - Parameters:
@@ -61,9 +63,25 @@ public struct RollingNumber: View {
 
     public var body: some View {
         let current = formatted
+        let shown = current?.displayText ?? model.session.current?.displayText ?? ""
         RollingCanvas(model: model, tabularDigits: options.tabularDigits, fadeMaskHeight: options.fadeMaskHeight)
+            // One accessibility element: label + final value only (FR-018).
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(verbatim: options.accessibilityLabel ?? shown))
+            .accessibilityValue(Text(verbatim: options.accessibilityLabel == nil ? "" : shown))
             .onAppear { apply(current) }
+            .onDisappear { coordinator.unregister(model.session) }
             .onChange(of: current) { apply($0) }
+            .onChange(of: reduceMotion) { _ in applyAnimationAllowed() }
+            .onChange(of: options.motion) { _ in applyAnimationAllowed() }
+    }
+
+    private var coordinator: AnnouncementCoordinator { group?.coordinator ?? model.standaloneCoordinator }
+
+    private func applyAnimationAllowed() {
+        let m = options.motion
+        model.session.setAnimationAllowed(m.enabled && !(reduceMotion && m.respectReduceMotion))
+        model.syncAnimating()
     }
 
     private func apply(_ number: FormattedNumber?) {
@@ -74,8 +92,12 @@ public struct RollingNumber: View {
         session.announce = options.announcements
         model.onStart = options.onStart
         model.onEnd = options.onEnd
-        if session.coordinator == nil { model.standaloneCoordinator.register(session) }
-        session.setAnimationAllowed(options.motion.enabled)
+        if session.coordinator !== coordinator {
+            session.coordinator?.unregister(session)
+            coordinator.register(session, order: options.groupOrder)
+        }
+        coordinator.setOrder(session, options.groupOrder)
+        applyAnimationAllowed()
         session.setItemKey(options.itemKey)
         if let number = number { model.update(number) }
     }

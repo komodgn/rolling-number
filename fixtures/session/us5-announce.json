@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "session",
+  "cases": [
+    {
+      "id": "single-change-announces-once-after-settling",
+      "spec": "US5-1",
+      "members": [ { "id": "total", "label": "최종가" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "최종가 ₩12,000" }
+      ]
+    },
+    {
+      "id": "rapid-changes-announce-last-value-only",
+      "spec": "US5-2",
+      "members": [ { "id": "total", "label": "최종가" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 250, "set": { "total": { "text": "₩9,000", "value": "9000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "최종가 ₩9,000" }
+      ]
+    },
+    {
+      "id": "first-display-and-same-value-are-silent",
+      "spec": "FR-019",
+      "members": [ { "id": "total", "label": "최종가" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": []
+    },
+    {
+      "id": "announcements-off",
+      "spec": "FR-019",
+      "members": [ { "id": "total", "label": "최종가", "announce": false } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" }
+      ]
+    },
+    {
+      "id": "reduce-motion-changes-immediately",
+      "spec": "US5-4, FR-017",
+      "members": [ { "id": "total", "label": "최종가" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 50, "reduceMotion": true },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": [
+        { "announce": "최종가 ₩12,000", "t": 100 }
+      ]
+    },
+    {
+      "id": "reduce-motion-turned-on-mid-animation",
+      "spec": "edge: reduce motion during animation",
+      "members": [ { "id": "total", "label": "최종가" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 200, "reduceMotion": true },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total", "t": 200 },
+        { "announce": "최종가 ₩12,000", "t": 200 }
+      ]
+    }
+  ]
+}

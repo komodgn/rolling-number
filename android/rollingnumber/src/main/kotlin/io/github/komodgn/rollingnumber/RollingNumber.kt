@@ -2,6 +2,7 @@ package io.github.komodgn.rollingnumber
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,10 +11,15 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalView
+import io.github.komodgn.rollingnumber.a11y.announce
+import io.github.komodgn.rollingnumber.a11y.rollingSemantics
 import io.github.komodgn.rollingnumber.format.IcuFormatter
+import io.github.komodgn.rollingnumber.logic.AnnouncementCoordinator
 import io.github.komodgn.rollingnumber.logic.RollingSession
 import io.github.komodgn.rollingnumber.motion.FrameDriver
 import io.github.komodgn.rollingnumber.motion.FrameRequests
+import io.github.komodgn.rollingnumber.motion.rememberReduceMotion
 import io.github.komodgn.rollingnumber.render.FrameTicker
 import io.github.komodgn.rollingnumber.render.RollingNumberLayout
 import java.math.BigDecimal
@@ -68,25 +74,37 @@ public fun RollingNumber(
     val requests = remember { FrameRequests() }
     val latestStart by rememberUpdatedState(onAnimationStart)
     val latestEnd by rememberUpdatedState(onAnimationEnd)
+    val reduceMotion by rememberReduceMotion()
+
+    val view = LocalView.current
+    val group = LocalRollingNumberGroup.current
+    val standalone = remember(view) { AnnouncementCoordinator { text -> view.announce(text) } }
+    val coordinator = group?.coordinator ?: standalone
+    DisposableEffect(coordinator, session) {
+        coordinator.register(session, groupOrder)
+        onDispose { coordinator.unregister(session) }
+    }
 
     SideEffect {
         session.spec = motion.toSpec()
         session.trend = trend.toInternal()
         session.label = accessibilityLabel
         session.announce = announceChanges
+        coordinator.setOrder(session, groupOrder)
         session.listener = object : RollingSession.Listener {
             override fun onStart() { latestStart?.invoke() }
             override fun onEnd() { latestEnd?.invoke() }
         }
-        session.setAnimationAllowed(motion.enabled)
+        session.setAnimationAllowed(motion.enabled && !(reduceMotion && motion.respectReduceMotion))
         session.setItemKey(itemKey)
         session.update(formatted)
         ticker.tick()
         requests.request()
     }
 
+    val description = if (accessibilityLabel.isNullOrEmpty()) formatted.displayText else "$accessibilityLabel ${formatted.displayText}"
     FrameDriver(session, ticker, requests)
-    RollingNumberLayout(session, ticker, style, modifier)
+    RollingNumberLayout(session, ticker, style, modifier.rollingSemantics(description))
 }
 
 /** [Long] convenience overload of [RollingNumber]. */
