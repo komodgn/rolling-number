@@ -1,0 +1,37 @@
+# Gradle / Android
+.gradle/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.class
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+out/
+
+# Swift / Xcode
+.build/
+.swiftpm/
+DerivedData/
+Packages/
+xcuserdata/
+*.xcodeproj/
+*.xcworkspace/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# Secrets
+.env*
+*.jks
+*.keystore

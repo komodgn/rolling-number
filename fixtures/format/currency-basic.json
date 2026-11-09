@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "kind": "format",
+  "cases": [
+    {
+      "id": "krw-basic",
+      "spec": "US2-1",
+      "input": { "value": "12900", "locale": "ko-KR", "format": { "style": "currency", "currency": "KRW" } },
+      "expect": {
+        "normalized": "12,900",
+        "tokens": [
+          { "kind": "literal", "key": "Lp0", "text": "₩" },
+          { "kind": "int", "key": "I4", "text": "1" },
+          { "kind": "int", "key": "I3", "text": "2" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "9" },
+          { "kind": "int", "key": "I1", "text": "0" },
+          { "kind": "int", "key": "I0", "text": "0" }
+        ]
+      }
+    },
+    {
+      "id": "usd-basic",
+      "spec": "US2-2",
+      "input": { "value": "1234.56", "locale": "en-US", "format": { "style": "currency", "currency": "USD" } },
+      "expect": {
+        "normalized": "1,234.56",
+        "tokens": [
+          { "kind": "literal", "key": "Lp0", "text": "$" },
+          { "kind": "int", "key": "I3", "text": "1" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "2" },
+          { "kind": "int", "key": "I1", "text": "3" },
+          { "kind": "int", "key": "I0", "text": "4" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "5" },
+          { "kind": "frac", "key": "F1", "text": "6" }
+        ]
+      }
+    },
+    {
+      "id": "eur-de",
+      "spec": "US2-3",
+      "input": { "value": "1234.56", "locale": "de-DE", "format": { "style": "currency", "currency": "EUR" } },
+      "expect": {
+        "normalized": "1,234.56",
+        "tokens": [
+          { "kind": "int", "key": "I3", "text": "1" },
+          { "kind": "group", "key": "G3", "text": "." },
+          { "kind": "int", "key": "I2", "text": "2" },
+          { "kind": "int", "key": "I1", "text": "3" },
+          { "kind": "int", "key": "I0", "text": "4" },
+          { "kind": "decimal", "key": "D", "text": "," },
+          { "kind": "frac", "key": "F0", "text": "5" },
+          { "kind": "frac", "key": "F1", "text": "6" },
+          { "kind": "literal", "key": "Ls0", "text": " €" }
+        ]
+      }
+    },
+    {
+      "id": "jpy-basic",
+      "spec": "FR-002",
+      "input": { "value": "12900", "locale": "ja-JP", "format": { "style": "currency", "currency": "JPY" } },
+      "expect": {
+        "normalized": "12,900",
+        "tokens": [
+          { "kind": "literal", "key": "Lp0", "text": "￥", "textMatch": "any" },
+          { "kind": "int", "key": "I4", "text": "1" },
+          { "kind": "int", "key": "I3", "text": "2" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "9" },
+          { "kind": "int", "key": "I1", "text": "0" },
+          { "kind": "int", "key": "I0", "text": "0" }
+        ]
+      }
+    },
+    {
+      "id": "number-basic",
+      "spec": "FR-002",
+      "input": { "value": "1234567.891", "locale": "en-US", "format": { "style": "number" } },
+      "expect": {
+        "normalized": "1,234,567.891",
+        "tokens": [
+          { "kind": "int", "key": "I6", "text": "1" },
+          { "kind": "group", "key": "G6", "text": "," },
+          { "kind": "int", "key": "I5", "text": "2" },
+          { "kind": "int", "key": "I4", "text": "3" },
+          { "kind": "int", "key": "I3", "text": "4" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "5" },
+          { "kind": "int", "key": "I1", "text": "6" },
+          { "kind": "int", "key": "I0", "text": "7" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "8" },
+          { "kind": "frac", "key": "F1", "text": "9" },
+          { "kind": "frac", "key": "F2", "text": "1" }
+        ]
+      }
+    }
+  ]
+}

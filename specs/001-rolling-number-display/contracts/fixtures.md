@@ -52,7 +52,8 @@ OS 포맷터 + 조각 분해를 함께 검증한다.
 - 조각 비교 규칙:
   - `int`, `frac`, `sign`, `prefix`, `suffix`: kind, key, text 모두 정확히 비교.
   - `decimal`, `group`: kind와 key를 비교하고, text는 해당 로케일 기호와 같은지 확인.
-  - `literal`: kind와 key를 비교. text는 공백 문자(U+0020, U+00A0, U+202F)를 없앤 뒤 비교한다(FR-003이 허용한 OS 차이). 정확한 비교가 필요하면 `"textMatch": "exact"`.
+  - `literal`: kind와 key를 비교. text는 공백 문자(U+0020, U+00A0, U+202F)와 방향 표시 문자(U+200E, U+200F, U+061C)를 없앤 뒤 비교한다(FR-003이 허용한 OS 차이). 정확한 비교가 필요하면 `"textMatch": "exact"`, 기호 모양 자체가 OS마다 다를 수 있으면(예: 엔화 `¥`/`￥`) `"textMatch": "any"`(종류·키만 비교).
+  - `decimal`, `group`도 위의 느슨한 비교를 쓴다(프랑스어 구분자 공백 종류 차이 대응).
 - 선택 필드 `"platforms": ["android", "ios"]`: 한 플랫폼에서만 검증할 케이스(가능한 한 쓰지 않음, 쓰면 `reason` 필수).
 
 ## 2. `diff/*.json`: 이전·다음 → 기대 diff 결과
@@ -83,7 +84,9 @@ OS 포맷터를 거치지 않는 순수 로직 검증이다. **두 플랫폼 결
 ```
 
 - `trend`: `auto` / `alwaysUp` / `alwaysDown` / `perDigit`.
-- `from`이 `null`이면 첫 표시. 이때 `expect`는 `animateFirstDisplay` 여부별로 `elements`를 준다(`"firstDisplay": { "animate": false }`이면 빈 목록).
+- `from`이 `null`(또는 생략)이면 첫 표시. 케이스의 `"animateFirstDisplay"`(기본 false)가 false면 `elements`는 빈 목록이고, true면 모든 자리 조각이 `enter-up`, 나머지는 `enter-fade`다.
+- `symbols`는 생략하면 `{ "decimal": ".", "group": ",", "minus": ["-", "−"] }`.
+- `from`/`to`의 `formatKey`는 생략하면 `"default"`.
 - `elements` 순서까지 비교한다. action 값과 순서 규칙은 [data-model.md §6](../data-model.md#6-transitiondiff-diff-결과).
 
 ### 최소 수록 케이스 (스펙 엣지 케이스·수용 시나리오 전부)
