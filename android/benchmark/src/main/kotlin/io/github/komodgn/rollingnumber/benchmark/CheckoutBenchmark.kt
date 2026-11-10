@@ -34,11 +34,11 @@ class CheckoutBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            device.wait(Until.hasObject(By.textContains("쿠폰")), 5_000)
+            device.wait(Until.hasObject(By.textContains("coupon")), 5_000)
         },
     ) {
         repeat(10) {
-            device.findObject(By.textContains("쿠폰"))?.click()
+            device.findObject(By.textContains("coupon"))?.click()
             Thread.sleep(250) // tap faster than the ~0.5 s animation so transitions interrupt
         }
         device.waitForIdle()
