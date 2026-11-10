@@ -1,0 +1,23 @@
+name: CouponCheckout
+options:
+  bundleIdPrefix: io.github.komodgn.rollingnumber
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  RollingNumber:
+    path: ../../../
+targets:
+  CouponCheckout:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+    dependencies:
+      - package: RollingNumber
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.komodgn.rollingnumber.CouponCheckout
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"

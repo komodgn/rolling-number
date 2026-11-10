@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "kind": "session",
+  "cases": [
+    {
+      "id": "first-display-no-events",
+      "spec": "US1-5",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": []
+    },
+    {
+      "id": "same-value-no-events",
+      "spec": "US1-6",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": []
+    },
+    {
+      "id": "one-change-start-end",
+      "spec": "FR-020",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "₩12,000" }
+      ]
+    },
+    {
+      "id": "invalid-value-ignored",
+      "spec": "edge: invalid value",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 100, "set": { "total": { "text": "NaN", "value": "NaN" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": []
+    }
+  ]
+}

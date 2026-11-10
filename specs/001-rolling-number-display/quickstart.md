@@ -8,7 +8,7 @@
 
 | 대상 | 필요 |
 |------|------|
-| Android | JDK 17, Android Studio(최신 안정판), Android SDK, 에뮬레이터 또는 기기: **API 24, 29, 30, 최신** (포맷 폴백 경계 검증용) |
+| Android | JDK 17 이상, Android Studio(최신 안정판), Android SDK, 에뮬레이터 또는 기기: **API 24, 29, 30, 최신** (포맷 폴백 경계 검증용). 에뮬레이터 화면이 검게 나오면 `-gpu swiftshader_indirect`로 다시 띄운다 |
 | iOS | macOS + Xcode(최신 안정판), **iOS 15 시뮬레이터 런타임** + 최신 시뮬레이터 |
 | 공통 | git. Windows PC에서는 Android만 가능하고 iOS 단계는 Mac 또는 CI에서 실행 |
 
@@ -57,7 +57,7 @@ xcodebuild test -scheme RollingNumber \
 
 ```bash
 ./gradlew :android:sample:installDebug          # Android
-open samples/ios/CouponCheckout/CouponCheckout.xcodeproj   # iOS (Xcode에서 실행)
+cd samples/ios/CouponCheckout && xcodegen generate && open CouponCheckout.xcodeproj   # iOS (macOS, XcodeGen 필요)
 ```
 
 두 앱에서 같은 순서로 확인한다.

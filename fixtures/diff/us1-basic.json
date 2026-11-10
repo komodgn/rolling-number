@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "kind": "diff",
+  "cases": [
+    {
+      "id": "roll-down-single",
+      "spec": "US1-1",
+      "from": { "text": "₩15,000", "value": "15000" },
+      "to": { "text": "₩12,000", "value": "12000" },
+      "expect": {
+        "direction": "down",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I4", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": "5", "to": "2", "action": "roll-down" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "digit-count-grows",
+      "spec": "US1-2",
+      "from": { "text": "₩9,900", "value": "9900" },
+      "to": { "text": "₩12,900", "value": "12900" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I4", "kind": "int", "from": null, "to": "1", "action": "enter-up" },
+          { "key": "I3", "kind": "int", "from": "9", "to": "2", "action": "roll-up" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "9", "to": "9", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "group-appears",
+      "spec": "US1-3",
+      "from": { "text": "₩900", "value": "900" },
+      "to": { "text": "₩1,900", "value": "1900" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": null, "to": "1", "action": "enter-up" },
+          { "key": "G3", "kind": "group", "from": null, "to": ",", "action": "enter-fade" },
+          { "key": "I2", "kind": "int", "from": "9", "to": "9", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "digit-count-shrinks",
+      "spec": "US1-4",
+      "from": { "text": "₩12,900", "value": "12900" },
+      "to": { "text": "₩9,900", "value": "9900" },
+      "expect": {
+        "direction": "down",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I4", "kind": "int", "from": "1", "to": null, "action": "exit-down" },
+          { "key": "I3", "kind": "int", "from": "2", "to": "9", "action": "roll-down" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "9", "to": "9", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "first-display",
+      "spec": "US1-5",
+      "to": { "text": "₩12,900", "value": "12900" },
+      "expect": { "direction": "none", "elements": [] }
+    },
+    {
+      "id": "first-display-animated",
+      "spec": "FR-013",
+      "animateFirstDisplay": true,
+      "to": { "text": "₩12,900", "value": "12900" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": null, "to": "₩", "action": "enter-fade" },
+          { "key": "I4", "kind": "int", "from": null, "to": "1", "action": "enter-up" },
+          { "key": "I3", "kind": "int", "from": null, "to": "2", "action": "enter-up" },
+          { "key": "G3", "kind": "group", "from": null, "to": ",", "action": "enter-fade" },
+          { "key": "I2", "kind": "int", "from": null, "to": "9", "action": "enter-up" },
+          { "key": "I1", "kind": "int", "from": null, "to": "0", "action": "enter-up" },
+          { "key": "I0", "kind": "int", "from": null, "to": "0", "action": "enter-up" }
+        ]
+      }
+    },
+    {
+      "id": "same-value",
+      "spec": "US1-6, FR-012",
+      "from": { "text": "₩12,900", "value": "12900" },
+      "to": { "text": "₩12,900", "value": "12900" },
+      "expect": { "direction": "none", "elements": [] }
+    }
+  ]
+}

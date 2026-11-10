@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "kind": "diff",
+  "cases": [
+    {
+      "id": "zero-to-positive",
+      "spec": "edge: 0 ↔ positive",
+      "from": { "text": "₩0", "value": "0" },
+      "to": { "text": "₩5,000", "value": "5000" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": null, "to": "5", "action": "enter-up" },
+          { "key": "G3", "kind": "group", "from": null, "to": ",", "action": "enter-fade" },
+          { "key": "I2", "kind": "int", "from": null, "to": "0", "action": "enter-up" },
+          { "key": "I1", "kind": "int", "from": null, "to": "0", "action": "enter-up" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "positive-to-zero",
+      "spec": "edge: 0 ↔ positive",
+      "from": { "text": "₩5,000", "value": "5000" },
+      "to": { "text": "₩0", "value": "0" },
+      "expect": {
+        "direction": "down",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": "5", "to": null, "action": "exit-down" },
+          { "key": "G3", "kind": "group", "from": ",", "to": null, "action": "exit-fade" },
+          { "key": "I2", "kind": "int", "from": "0", "to": null, "action": "exit-down" },
+          { "key": "I1", "kind": "int", "from": "0", "to": null, "action": "exit-down" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "positive-to-negative",
+      "spec": "edge: positive ↔ negative",
+      "from": { "text": "₩500", "value": "500" },
+      "to": { "text": "-₩300", "value": "-300" },
+      "expect": {
+        "direction": "down",
+        "elements": [
+          { "key": "S", "kind": "sign", "from": null, "to": "-", "action": "enter-fade" },
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "5", "to": "3", "action": "roll-down" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "negative-to-positive",
+      "spec": "edge: positive ↔ negative",
+      "from": { "text": "-₩300", "value": "-300" },
+      "to": { "text": "₩500", "value": "500" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "S", "kind": "sign", "from": "-", "to": null, "action": "exit-fade" },
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "3", "to": "5", "action": "roll-up" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "trailing-zero-same-value",
+      "spec": "edge: 12.5 → 12.50",
+      "from": { "text": "12.5", "value": "12.5" },
+      "to": { "text": "12.50", "value": "12.50" },
+      "expect": {
+        "direction": "none",
+        "elements": [
+          { "key": "I1", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "2", "to": "2", "action": "stay" },
+          { "key": "D", "kind": "decimal", "from": ".", "to": ".", "action": "stay" },
+          { "key": "F0", "kind": "frac", "from": "5", "to": "5", "action": "stay" },
+          { "key": "F1", "kind": "frac", "from": null, "to": "0", "action": "enter-fade" }
+        ]
+      }
+    },
+    {
+      "id": "fraction-drops",
+      "spec": "edge: 12.99 → 13",
+      "from": { "text": "12.99", "value": "12.99" },
+      "to": { "text": "13", "value": "13" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I1", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "2", "to": "3", "action": "roll-up" },
+          { "key": "D", "kind": "decimal", "from": ".", "to": null, "action": "exit-fade" },
+          { "key": "F0", "kind": "frac", "from": "9", "to": null, "action": "exit-up" },
+          { "key": "F1", "kind": "frac", "from": "9", "to": null, "action": "exit-up" }
+        ]
+      }
+    },
+    {
+      "id": "billion",
+      "spec": "edge: very large numbers",
+      "from": { "text": "999,999,999", "value": "999999999" },
+      "to": { "text": "1,000,000,000", "value": "1000000000" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I9", "kind": "int", "from": null, "to": "1", "action": "enter-up" },
+          { "key": "G9", "kind": "group", "from": null, "to": ",", "action": "enter-fade" },
+          { "key": "I8", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "I7", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "I6", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "G6", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I5", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "I4", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "I3", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "I1", "kind": "int", "from": "9", "to": "0", "action": "roll-up" },
+          { "key": "I0", "kind": "int", "from": "9", "to": "0", "action": "roll-up" }
+        ]
+      }
+    },
+    {
+      "id": "compact-unit-appears",
+      "spec": "edge: 999 → 1K",
+      "from": { "text": "999", "value": "999" },
+      "to": { "text": "1K", "value": "1000" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I2", "kind": "int", "from": "9", "to": null, "action": "exit-up" },
+          { "key": "I1", "kind": "int", "from": "9", "to": null, "action": "exit-up" },
+          { "key": "I0", "kind": "int", "from": "9", "to": "1", "action": "roll-up" },
+          { "key": "Ls0", "kind": "literal", "from": null, "to": "K", "action": "enter-fade" }
+        ]
+      }
+    },
+    {
+      "id": "compact-unit-changes",
+      "spec": "edge: 1.2K → 1.2M",
+      "from": { "text": "1.2K", "value": "1200" },
+      "to": { "text": "1.2M", "value": "1200000" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I0", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "D", "kind": "decimal", "from": ".", "to": ".", "action": "stay" },
+          { "key": "F0", "kind": "frac", "from": "2", "to": "2", "action": "stay" },
+          { "key": "Ls0", "kind": "literal", "from": "K", "to": "M", "action": "crossfade" }
+        ]
+      }
+    },
+    {
+      "id": "affix-changes",
+      "spec": "edge: prefix/suffix change",
+      "from": { "text": "₩12,900", "value": "12900", "suffix": "/월" },
+      "to": { "text": "₩12,900", "value": "12900", "suffix": "/년" },
+      "expect": {
+        "direction": "none",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I4", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": "2", "to": "2", "action": "stay" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "9", "to": "9", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "AS", "kind": "suffix", "from": "/월", "to": "/년", "action": "crossfade" }
+        ]
+      }
+    },
+    {
+      "id": "de-de-currency",
+      "spec": "US2-3",
+      "symbols": { "decimal": ",", "group": "." },
+      "from": { "text": "1.234,56 €", "value": "1234.56" },
+      "to": { "text": "1.299,00 €", "value": "1299.00" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I3", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "G3", "kind": "group", "from": ".", "to": ".", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "2", "to": "2", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "3", "to": "9", "action": "roll-up" },
+          { "key": "I0", "kind": "int", "from": "4", "to": "9", "action": "roll-up" },
+          { "key": "D", "kind": "decimal", "from": ",", "to": ",", "action": "stay" },
+          { "key": "F0", "kind": "frac", "from": "5", "to": "0", "action": "roll-up" },
+          { "key": "F1", "kind": "frac", "from": "6", "to": "0", "action": "roll-up" },
+          { "key": "Ls0", "kind": "literal", "from": " €", "to": " €", "action": "stay" }
+        ]
+      }
+    }
+  ]
+}

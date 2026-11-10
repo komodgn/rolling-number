@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "session",
+  "cases": [
+    {
+      "id": "locale-change-same-value",
+      "spec": "FR-014",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900", "formatKey": "ko-KR|Currency|KRW" } } },
+        { "t": 100, "set": { "total": { "text": "KRW 12,900", "value": "12900", "formatKey": "en-US|Currency|KRW" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": []
+    },
+    {
+      "id": "locale-change-with-value-change",
+      "spec": "FR-014",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900", "formatKey": "ko-KR|Currency|KRW" } } },
+        { "t": 100, "set": { "total": { "text": "KRW 9,900", "value": "9900", "formatKey": "en-US|Currency|KRW" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": [
+        { "announce": "KRW 9,900", "t": 100 }
+      ]
+    },
+    {
+      "id": "locale-change-during-animation",
+      "spec": "FR-014",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩12,900", "value": "12900", "formatKey": "ko-KR|Currency|KRW" } } },
+        { "t": 100, "set": { "total": { "text": "₩9,900", "value": "9900", "formatKey": "ko-KR|Currency|KRW" } } },
+        { "t": 200, "set": { "total": { "text": "KRW 9,900", "value": "9900", "formatKey": "en-US|Currency|KRW" } } },
+        { "t": 1000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "announce": "KRW 9,900", "t": 200 }
+      ]
+    }
+  ]
+}

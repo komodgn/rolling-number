@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "kind": "format",
+  "cases": [
+    {
+      "id": "half-up",
+      "spec": "FR-002",
+      "input": { "value": "2.345", "locale": "en-US", "format": { "style": "number", "minFraction": 2, "maxFraction": 2 } },
+      "expect": {
+        "normalized": "2.35",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "3" },
+          { "kind": "frac", "key": "F1", "text": "5" }
+        ]
+      }
+    },
+    {
+      "id": "half-even",
+      "spec": "FR-002",
+      "input": { "value": "2.345", "locale": "en-US", "format": { "style": "number", "minFraction": 2, "maxFraction": 2, "rounding": "halfEven" } },
+      "expect": {
+        "normalized": "2.34",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "3" },
+          { "kind": "frac", "key": "F1", "text": "4" }
+        ]
+      }
+    },
+    {
+      "id": "down",
+      "spec": "FR-002",
+      "input": { "value": "2.349", "locale": "en-US", "format": { "style": "number", "maxFraction": 2, "rounding": "down" } },
+      "expect": {
+        "normalized": "2.34",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "3" },
+          { "kind": "frac", "key": "F1", "text": "4" }
+        ]
+      }
+    },
+    {
+      "id": "up",
+      "spec": "FR-002",
+      "input": { "value": "2.341", "locale": "en-US", "format": { "style": "number", "maxFraction": 2, "rounding": "up" } },
+      "expect": {
+        "normalized": "2.35",
+        "tokens": [
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "3" },
+          { "kind": "frac", "key": "F1", "text": "5" }
+        ]
+      }
+    },
+    {
+      "id": "min-fraction-pads-zero",
+      "spec": "edge: 12.5 → 12.50",
+      "input": { "value": "12.5", "locale": "en-US", "format": { "style": "number", "minFraction": 2 } },
+      "expect": {
+        "normalized": "12.50",
+        "tokens": [
+          { "kind": "int", "key": "I1", "text": "1" },
+          { "kind": "int", "key": "I0", "text": "2" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "5" },
+          { "kind": "frac", "key": "F1", "text": "0" }
+        ]
+      }
+    },
+    {
+      "id": "grouping-off",
+      "spec": "FR-002",
+      "input": { "value": "1234567", "locale": "en-US", "format": { "style": "number", "grouping": false } },
+      "expect": {
+        "normalized": "1234567",
+        "tokens": [
+          { "kind": "int", "key": "I6", "text": "1" },
+          { "kind": "int", "key": "I5", "text": "2" },
+          { "kind": "int", "key": "I4", "text": "3" },
+          { "kind": "int", "key": "I3", "text": "4" },
+          { "kind": "int", "key": "I2", "text": "5" },
+          { "kind": "int", "key": "I1", "text": "6" },
+          { "kind": "int", "key": "I0", "text": "7" }
+        ]
+      }
+    },
+    {
+      "id": "negative-currency",
+      "spec": "edge: positive ↔ negative",
+      "input": { "value": "-300", "locale": "ko-KR", "format": { "style": "currency", "currency": "KRW" } },
+      "expect": {
+        "normalized": "-300",
+        "tokens": [
+          { "kind": "sign", "key": "S", "text": "-" },
+          { "kind": "literal", "key": "Lp0", "text": "₩" },
+          { "kind": "int", "key": "I2", "text": "3" },
+          { "kind": "int", "key": "I1", "text": "0" },
+          { "kind": "int", "key": "I0", "text": "0" }
+        ]
+      }
+    }
+  ]
+}

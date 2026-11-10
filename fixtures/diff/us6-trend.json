@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "kind": "diff",
+  "cases": [
+    {
+      "id": "trend-always-up",
+      "spec": "US6-1",
+      "trend": "alwaysUp",
+      "from": { "text": "₩15,000", "value": "15000" },
+      "to": { "text": "₩12,000", "value": "12000" },
+      "expect": {
+        "direction": "down",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I4", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": "5", "to": "2", "action": "roll-up" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "trend-always-down",
+      "spec": "FR-005",
+      "trend": "alwaysDown",
+      "from": { "text": "₩12,000", "value": "12000" },
+      "to": { "text": "₩15,000", "value": "15000" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "Lp0", "kind": "literal", "from": "₩", "to": "₩", "action": "stay" },
+          { "key": "I4", "kind": "int", "from": "1", "to": "1", "action": "stay" },
+          { "key": "I3", "kind": "int", "from": "2", "to": "5", "action": "roll-down" },
+          { "key": "G3", "kind": "group", "from": ",", "to": ",", "action": "stay" },
+          { "key": "I2", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I1", "kind": "int", "from": "0", "to": "0", "action": "stay" },
+          { "key": "I0", "kind": "int", "from": "0", "to": "0", "action": "stay" }
+        ]
+      }
+    },
+    {
+      "id": "trend-per-digit",
+      "spec": "US6-2",
+      "trend": "perDigit",
+      "from": { "text": "19", "value": "19" },
+      "to": { "text": "21", "value": "21" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I1", "kind": "int", "from": "1", "to": "2", "action": "roll-up" },
+          { "key": "I0", "kind": "int", "from": "9", "to": "1", "action": "roll-down" }
+        ]
+      }
+    },
+    {
+      "id": "trend-per-digit-entering-digit-follows-value",
+      "spec": "FR-005",
+      "trend": "perDigit",
+      "from": { "text": "99", "value": "99" },
+      "to": { "text": "100", "value": "100" },
+      "expect": {
+        "direction": "up",
+        "elements": [
+          { "key": "I2", "kind": "int", "from": null, "to": "1", "action": "enter-up" },
+          { "key": "I1", "kind": "int", "from": "9", "to": "0", "action": "roll-down" },
+          { "key": "I0", "kind": "int", "from": "9", "to": "0", "action": "roll-down" }
+        ]
+      }
+    },
+    {
+      "id": "always-up-with-same-value-crossfades",
+      "spec": "FR-008",
+      "trend": "alwaysUp",
+      "from": { "text": "1.2K", "value": "1200" },
+      "to": { "text": "1,200", "value": "1200" },
+      "expect": {
+        "direction": "none",
+        "elements": [
+          { "key": "I3", "kind": "int", "from": null, "to": "1", "action": "enter-fade" },
+          { "key": "G3", "kind": "group", "from": null, "to": ",", "action": "enter-fade" },
+          { "key": "I2", "kind": "int", "from": null, "to": "2", "action": "enter-fade" },
+          { "key": "I1", "kind": "int", "from": null, "to": "0", "action": "enter-fade" },
+          { "key": "I0", "kind": "int", "from": "1", "to": "0", "action": "crossfade" },
+          { "key": "D", "kind": "decimal", "from": ".", "to": null, "action": "exit-fade" },
+          { "key": "F0", "kind": "frac", "from": "2", "to": null, "action": "exit-fade" },
+          { "key": "Ls0", "kind": "literal", "from": "K", "to": null, "action": "exit-fade" }
+        ]
+      }
+    }
+  ]
+}

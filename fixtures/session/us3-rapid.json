@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "kind": "session",
+  "cases": [
+    {
+      "id": "rapid-taps-single-end",
+      "spec": "US3-3, US5-2",
+      "members": [ { "id": "total", "label": "최종가", "announce": true } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 250, "set": { "total": { "text": "₩9,000", "value": "9000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "최종가 ₩9,000" }
+      ]
+    },
+    {
+      "id": "reversal-single-start-and-end",
+      "spec": "US3-1",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 100, "set": { "total": { "text": "₩12,000", "value": "12000" } } },
+        { "t": 300, "set": { "total": { "text": "₩15,000", "value": "15000" } } },
+        { "t": 2000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "₩15,000" }
+      ]
+    },
+    {
+      "id": "five-changes-one-end",
+      "spec": "US3-3",
+      "members": [ { "id": "total" } ],
+      "steps": [
+        { "t": 0, "set": { "total": { "text": "₩10,000", "value": "10000" } } },
+        { "t": 100, "set": { "total": { "text": "₩11,000", "value": "11000" } } },
+        { "t": 160, "set": { "total": { "text": "₩9,900", "value": "9900" } } },
+        { "t": 220, "set": { "total": { "text": "₩12,900", "value": "12900" } } },
+        { "t": 280, "set": { "total": { "text": "₩900", "value": "900" } } },
+        { "t": 340, "set": { "total": { "text": "₩19,800", "value": "19800" } } },
+        { "t": 3000, "advance": true }
+      ],
+      "expect": [
+        { "event": "start", "member": "total", "t": 100 },
+        { "event": "end", "member": "total" },
+        { "announce": "₩19,800" }
+      ]
+    }
+  ]
+}

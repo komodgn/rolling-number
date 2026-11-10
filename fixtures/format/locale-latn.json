@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "kind": "format",
+  "cases": [
+    {
+      "id": "hindi-devanagari-forced-latin-with-indian-grouping",
+      "spec": "Assumptions: Latin digits only",
+      "input": { "value": "1234567", "locale": "hi-IN-u-nu-deva", "format": { "style": "number" } },
+      "expect": {
+        "normalized": "12,34,567",
+        "tokens": [
+          { "kind": "int", "key": "I6", "text": "1" },
+          { "kind": "int", "key": "I5", "text": "2" },
+          { "kind": "group", "key": "G5", "text": "," },
+          { "kind": "int", "key": "I4", "text": "3" },
+          { "kind": "int", "key": "I3", "text": "4" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "5" },
+          { "kind": "int", "key": "I1", "text": "6" },
+          { "kind": "int", "key": "I0", "text": "7" }
+        ]
+      }
+    },
+    {
+      "id": "arabic-egypt-forced-latin",
+      "spec": "Assumptions: Latin digits only",
+      "input": { "value": "1234.5", "locale": "ar-EG", "format": { "style": "number" } },
+      "expect": {
+        "normalized": "1,234.5",
+        "tokens": [
+          { "kind": "int", "key": "I3", "text": "1" },
+          { "kind": "group", "key": "G3", "text": "," },
+          { "kind": "int", "key": "I2", "text": "2" },
+          { "kind": "int", "key": "I1", "text": "3" },
+          { "kind": "int", "key": "I0", "text": "4" },
+          { "kind": "decimal", "key": "D", "text": "." },
+          { "kind": "frac", "key": "F0", "text": "5" }
+        ]
+      }
+    }
+  ]
+}
