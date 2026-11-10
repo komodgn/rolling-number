@@ -116,6 +116,10 @@ RollingNumberGroup {
 
 - **카운트업(odometer) 애니메이션.** 각 자리를 이전 글자에서 다음 글자로 곧장 미끄러뜨리는 대신, 중간 값(예: 1 → 40에서 2, 3 … 39)을 차례로 훑으며 올라가는 방식을 **선택형 trend**로 추가하는 것. 현재는 미구현이며, 모션 엔진이 한 자리 안에서 중간 숫자 시퀀스를 생성·스크롤하도록 확장해야 합니다. 확정된 약속이 아니라 방향으로만 기록해 둡니다.
 
+## 기여
+
+기여를 환영합니다. [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요 — 핵심 규칙은 `fixtures/`의 공유 테스트 케이스를 통해 Android와 iOS 동작을 동일하게(패리티) 유지하는 것입니다.
+
 ## 라이선스
 
 Apache License 2.0. [LICENSE](LICENSE) 참고. Copyright © komodgn.

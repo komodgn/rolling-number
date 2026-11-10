@@ -116,6 +116,11 @@ Both platforms implement the same rules independently and verify parity by passi
 
 - **Odometer-style counting.** An opt-in trend that scrolls through intermediate values (e.g. 2, 3 … 39 for 1 → 40) instead of sliding each digit straight from its old glyph to its new one. Not implemented today; it would need the motion engine to generate and scroll the in-between digit sequence. Not a committed promise — tracked here as a direction, not a schedule.
 
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) — the key rule is keeping
+Android and iOS behavior in parity through the shared `fixtures/` test cases.
+
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE). Copyright © komodgn.
