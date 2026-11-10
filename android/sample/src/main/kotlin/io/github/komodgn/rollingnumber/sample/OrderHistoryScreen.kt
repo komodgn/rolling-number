@@ -52,7 +52,7 @@ internal fun OrderHistoryScreen(settings: DemoSettings) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp),
             ) {
-                Text("주문 #${order.id}", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                Text("Order #${order.id}", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
                 RollingNumber(
                     value = order.amount,
                     format = krw,

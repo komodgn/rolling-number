@@ -16,7 +16,7 @@ struct OrderHistoryView: View {
     var body: some View {
         List(orders) { order in
             HStack {
-                Text("주문 #\(order.id)")
+                Text("Order #\(order.id)")
                 Spacer()
                 RollingNumber(order.amount, format: .currency(code: "KRW"), locale: settings.locale)
                     .rollingItemKey(order.id)

@@ -10,6 +10,8 @@ An Android (Jetpack Compose) and iOS (SwiftUI) component that displays changing 
 - Currency, percent, compact (1.2K, 1.2천), fraction digits, and rounding are formatted with each OS's locale rules.
 - Screen readers hear the final value once, and the component respects the reduce-motion setting.
 
+<p align="center"><img src="docs/demo-ios.gif" width="300" alt="RollingNumber demo: coupon, locale, quantity, and negative transitions rolling on the iOS sample" /></p>
+
 | Platform | Minimum version | Distribution |
 |----------|-----------------|--------------|
 | Android | 7.0 (API 24) | Maven Central `io.github.komodgn:rollingnumber` |

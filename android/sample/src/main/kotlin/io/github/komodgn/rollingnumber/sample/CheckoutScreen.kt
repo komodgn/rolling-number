@@ -82,7 +82,7 @@ internal fun CheckoutScreen(settings: DemoSettings) {
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text("결제", style = MaterialTheme.typography.headlineSmall)
+        Text("Checkout", style = MaterialTheme.typography.headlineSmall)
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             DEMO_LOCALES.forEach { (label, l) ->
@@ -92,20 +92,20 @@ internal fun CheckoutScreen(settings: DemoSettings) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.weight(1f)) {
-                Text("기본 티셔츠", style = MaterialTheme.typography.titleMedium)
+                Text("Basic T-Shirt", style = MaterialTheme.typography.titleMedium)
                 RollingNumber(value = UNIT_PRICE, format = krw, locale = settings.locale, motion = settings.motion,
                     style = RollingNumberDefaults.style(MaterialTheme.typography.bodyMedium))
             }
             FilledTonalButton(onClick = { if (quantity > 1) quantity-- }) { Text("−") }
             Spacer(Modifier.width(8.dp))
-            RollingNumber(value = quantity, motion = settings.motion, accessibilityLabel = "수량",
+            RollingNumber(value = quantity, motion = settings.motion, accessibilityLabel = "Quantity",
                 style = RollingNumberDefaults.style(MaterialTheme.typography.titleMedium))
             Spacer(Modifier.width(8.dp))
             FilledTonalButton(onClick = { if (quantity < 99) quantity++ }) { Text("+") }
         }
 
         Button(onClick = { couponApplied = !couponApplied }, modifier = Modifier.fillMaxWidth()) {
-            Text(if (couponApplied) "10% 쿠폰 해제" else "10% 쿠폰 적용")
+            Text(if (couponApplied) "Remove 10% coupon" else "Apply 10% coupon")
         }
 
         HorizontalDivider()
@@ -114,26 +114,26 @@ internal fun CheckoutScreen(settings: DemoSettings) {
         // the width change, and the screen reader hears one merged announcement.
         RollingNumberGroup {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                LabeledAmount("상품 금액") {
+                LabeledAmount("Subtotal") {
                     RollingNumber(subtotal, krw, locale = settings.locale, motion = settings.motion, style = body,
-                        accessibilityLabel = "상품 금액", groupOrder = 0)
+                        accessibilityLabel = "Subtotal", groupOrder = 0)
                 }
-                LabeledAmount("쿠폰 할인") {
+                LabeledAmount("Discount") {
                     RollingNumber(discount.negate(), krw, locale = settings.locale, motion = settings.motion, style = body,
-                        accessibilityLabel = "할인액", groupOrder = 1)
+                        accessibilityLabel = "Discount", groupOrder = 1)
                 }
-                LabeledAmount("배송비") {
+                LabeledAmount("Shipping") {
                     RollingNumber(shipping, krw, locale = settings.locale, motion = settings.motion, style = body,
-                        accessibilityLabel = "배송비", groupOrder = 2)
+                        accessibilityLabel = "Shipping", groupOrder = 2)
                 }
                 HorizontalDivider()
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                    Text("최종 결제 금액", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                    Text("Total", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                     RollingNumber(total, krw, locale = settings.locale, motion = settings.motion,
                         style = RollingNumberDefaults.style(
                             MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold, fontSize = 28.sp),
                         ),
-                        accessibilityLabel = "최종가", groupOrder = 3)
+                        accessibilityLabel = "Total", groupOrder = 3)
                 }
 
                 // Same numbers on one line: when one widens, the ones to its right slide along.
@@ -152,12 +152,12 @@ internal fun CheckoutScreen(settings: DemoSettings) {
 
         HorizontalDivider()
 
-        SettingSwitch("애니메이션", settings.animationEnabled) { settings.animationEnabled = it }
-        SettingSwitch("동작 줄이기 설정 무시", settings.ignoreReduceMotion) { settings.ignoreReduceMotion = it }
+        SettingSwitch("Animation", settings.animationEnabled) { settings.animationEnabled = it }
+        SettingSwitch("Ignore Reduce Motion", settings.ignoreReduceMotion) { settings.ignoreReduceMotion = it }
         OutlinedButton(
             onClick = { debugAdjustment = if (debugAdjustment.signum() == 0) BigDecimal(-50_000) else BigDecimal.ZERO },
             modifier = Modifier.fillMaxWidth(),
-        ) { Text(if (debugAdjustment.signum() == 0) "디버그: 금액을 음수로" else "디버그: 음수 해제") }
+        ) { Text(if (debugAdjustment.signum() == 0) "Debug: make total negative" else "Debug: reset") }
     }
 }
 

@@ -29,7 +29,7 @@ struct CheckoutView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("결제").font(.title2)
+                Text("Checkout").font(.title2)
 
                 Picker("Locale", selection: $settings.localeID) {
                     ForEach(DemoSettings.locales, id: \.self) { Text($0).tag($0) }
@@ -38,16 +38,16 @@ struct CheckoutView: View {
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("기본 티셔츠").font(.headline)
+                        Text("Basic T-Shirt").font(.headline)
                         RollingNumber(unitPrice, format: krw, locale: settings.locale).font(.subheadline)
                     }
                     Spacer()
                     Button("−") { if quantity > 1 { quantity -= 1 } }.buttonStyle(.bordered)
-                    RollingNumber(quantity).font(.headline).rollingAccessibilityLabel("수량")
+                    RollingNumber(quantity).font(.headline).rollingAccessibilityLabel("Quantity")
                     Button("+") { if quantity < 99 { quantity += 1 } }.buttonStyle(.bordered)
                 }
 
-                Button(couponApplied ? "10% 쿠폰 해제" : "10% 쿠폰 적용") { couponApplied.toggle() }
+                Button(couponApplied ? "Remove 10% coupon" : "Apply 10% coupon") { couponApplied.toggle() }
                     .buttonStyle(.borderedProminent)
                     .frame(maxWidth: .infinity)
 
@@ -57,25 +57,25 @@ struct CheckoutView: View {
                 // with the width change, and VoiceOver hears one merged announcement.
                 RollingNumberGroup {
                     VStack(spacing: 8) {
-                        row("상품 금액") {
+                        row("Subtotal") {
                             RollingNumber(subtotal, format: krw, locale: settings.locale)
-                                .rollingAccessibilityLabel("상품 금액").rollingGroupOrder(0)
+                                .rollingAccessibilityLabel("Subtotal").rollingGroupOrder(0)
                         }
-                        row("쿠폰 할인") {
+                        row("Discount") {
                             RollingNumber(-discount, format: krw, locale: settings.locale)
-                                .rollingAccessibilityLabel("할인액").rollingGroupOrder(1)
+                                .rollingAccessibilityLabel("Discount").rollingGroupOrder(1)
                         }
-                        row("배송비") {
+                        row("Shipping") {
                             RollingNumber(shipping, format: krw, locale: settings.locale)
-                                .rollingAccessibilityLabel("배송비").rollingGroupOrder(2)
+                                .rollingAccessibilityLabel("Shipping").rollingGroupOrder(2)
                         }
                         Divider()
                         HStack {
-                            Text("최종 결제 금액").font(.headline)
+                            Text("Total").font(.headline)
                             Spacer()
                             RollingNumber(total, format: krw, locale: settings.locale)
                                 .font(.system(size: 28, weight: .bold))
-                                .rollingAccessibilityLabel("최종가").rollingGroupOrder(3)
+                                .rollingAccessibilityLabel("Total").rollingGroupOrder(3)
                         }
                         HStack(spacing: 0) {
                             RollingNumber(subtotal, format: krw, locale: settings.locale)
@@ -94,9 +94,9 @@ struct CheckoutView: View {
 
                 Divider()
 
-                Toggle("애니메이션", isOn: $settings.animationEnabled)
-                Toggle("동작 줄이기 설정 무시", isOn: $settings.ignoreReduceMotion)
-                Button(debugAdjustment == 0 ? "디버그: 금액을 음수로" : "디버그: 음수 해제") {
+                Toggle("Animation", isOn: $settings.animationEnabled)
+                Toggle("Ignore Reduce Motion", isOn: $settings.ignoreReduceMotion)
+                Button(debugAdjustment == 0 ? "Debug: make total negative" : "Debug: reset") {
                     debugAdjustment = debugAdjustment == 0 ? -50_000 : 0
                 }
                 .buttonStyle(.bordered)

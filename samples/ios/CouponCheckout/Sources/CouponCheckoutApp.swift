@@ -23,8 +23,8 @@ struct CouponCheckoutApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                CheckoutView().tabItem { Label("결제", systemImage: "cart") }
-                OrderHistoryView().tabItem { Label("주문 내역", systemImage: "list.bullet") }
+                CheckoutView().tabItem { Label("Checkout", systemImage: "cart") }
+                OrderHistoryView().tabItem { Label("Order History", systemImage: "list.bullet") }
             }
             .environmentObject(settings)
             .rollingMotion(settings.motion)

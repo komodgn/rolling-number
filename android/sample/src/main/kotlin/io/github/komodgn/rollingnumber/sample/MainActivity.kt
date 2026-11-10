@@ -27,8 +27,8 @@ class MainActivity : ComponentActivity() {
                     var tab by remember { mutableIntStateOf(0) }
                     Column(Modifier.fillMaxSize().safeDrawingPadding()) {
                         TabRow(selectedTabIndex = tab) {
-                            Tab(selected = tab == 0, onClick = { tab = 0 }, text = { Text("결제") })
-                            Tab(selected = tab == 1, onClick = { tab = 1 }, text = { Text("주문 내역") })
+                            Tab(selected = tab == 0, onClick = { tab = 0 }, text = { Text("Checkout") })
+                            Tab(selected = tab == 1, onClick = { tab = 1 }, text = { Text("Order History") })
                         }
                         when (tab) {
                             0 -> CheckoutScreen(settings)

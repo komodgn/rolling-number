@@ -10,6 +10,8 @@
 - 통화·퍼센트·축약(1.2K, 1.2천)·소수 자리·반올림을 각 OS의 로케일 규칙으로 표시합니다.
 - 스크린리더에는 최종 값만 한 번 알리고, 동작 줄이기 설정을 따릅니다.
 
+<p align="center"><img src="docs/demo-ios.gif" width="300" alt="RollingNumber 데모: 쿠폰·로케일·수량·음수 전환이 굴러가는 iOS 샘플" /></p>
+
 | 플랫폼 | 최소 버전 | 배포 |
 |--------|-----------|------|
 | Android | 7.0 (API 24) | Maven Central `io.github.komodgn:rollingnumber` |
