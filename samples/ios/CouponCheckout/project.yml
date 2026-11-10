@@ -5,7 +5,7 @@ options:
     iOS: "15.0"
 packages:
   RollingNumber:
-    path: ../../
+    path: ../../../
 targets:
   CouponCheckout:
     type: application
