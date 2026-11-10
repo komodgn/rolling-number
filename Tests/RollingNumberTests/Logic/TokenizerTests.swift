@@ -35,8 +35,8 @@ final class TokenizerTests: XCTestCase {
     }
 
     func testDeveloperAffixesComeFirstAndLast() throws {
-        XCTAssertEqual(render(try Tokenizer.tokenize(number("₩12,900", "12900", prefix: "~", suffix: "/월"))),
-                       "prefix:AP:~ literal:Lp0:₩ int:I4:1 int:I3:2 group:G3:, int:I2:9 int:I1:0 int:I0:0 suffix:AS:/월")
+        XCTAssertEqual(render(try Tokenizer.tokenize(number("₩12,900", "12900", prefix: "~", suffix: "/mo"))),
+                       "prefix:AP:~ literal:Lp0:₩ int:I4:1 int:I3:2 group:G3:, int:I2:9 int:I1:0 int:I0:0 suffix:AS:/mo")
     }
 
     func testUnicodeMinusIsASign() throws {

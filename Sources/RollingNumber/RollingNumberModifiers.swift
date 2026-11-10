@@ -26,7 +26,7 @@ public extension View {
         rollingOption { $0.itemKey = AnyHashable(key) }
     }
 
-    /// Name read before the value, e.g. "최종가" (FR-019).
+    /// Name read before the value, e.g. "Total" (FR-019).
     func rollingAccessibilityLabel(_ label: String) -> some View {
         rollingOption { $0.accessibilityLabel = label }
     }

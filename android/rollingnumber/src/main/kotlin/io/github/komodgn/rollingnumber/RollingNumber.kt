@@ -39,7 +39,7 @@ private const val TAG = "RollingNumber"
  * @param suffix text shown after the number, never rolled (FR-004).
  * @param trend which way changed digits roll (FR-005).
  * @param itemKey identity of the list item; a different key shows the next value without animation (FR-013).
- * @param accessibilityLabel name read before the value, e.g. "최종가" (FR-019).
+ * @param accessibilityLabel name read before the value, e.g. "Total" (FR-019).
  * @param announceChanges announce the final value after each change settles (FR-019).
  * @param groupOrder order inside a [RollingNumberGroup] announcement; null keeps composition order.
  * @param onAnimationStart called once when a change starts animating from rest (FR-020).

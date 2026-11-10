@@ -34,20 +34,20 @@ class RollingSemanticsTest {
                 value = value,
                 format = RollingNumberFormat.currency("KRW"),
                 locale = Locale.KOREA,
-                accessibilityLabel = "최종가",
+                accessibilityLabel = "Total",
             )
         }
         rule.mainClock.advanceTimeBy(100)
-        rule.onNodeWithContentDescription("최종가 ₩15,000").assertExists()
+        rule.onNodeWithContentDescription("Total ₩15,000").assertExists()
 
         value = BigDecimal(12_000)
         rule.mainClock.advanceTimeByFrame()
         rule.mainClock.advanceTimeBy(100) // mid-animation
-        rule.onNodeWithContentDescription("최종가 ₩12,000")
+        rule.onNodeWithContentDescription("Total ₩12,000")
             .assertExists()
             .assert(SemanticsMatcher("has no children") { it.children.isEmpty() })
-        assertEquals(0, rule.onAllNodesWithContentDescription("최종가 ₩15,000").fetchSemanticsNodes().size)
-        rule.onNodeWithContentDescription("최종가 ₩12,000")
+        assertEquals(0, rule.onAllNodesWithContentDescription("Total ₩15,000").fetchSemanticsNodes().size)
+        rule.onNodeWithContentDescription("Total ₩12,000")
             .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.LiveRegion))
     }
 }

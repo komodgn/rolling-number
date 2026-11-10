@@ -49,8 +49,8 @@ class TokenizerTest {
     @Test
     fun developerAffixesComeFirstAndLast() {
         assertEquals(
-            "prefix:AP:~ literal:Lp0:₩ int:I4:1 int:I3:2 group:G3:, int:I2:9 int:I1:0 int:I0:0 suffix:AS:/월",
-            render(Tokenizer.tokenize(number("₩12,900", "12900", prefix = "~", suffix = "/월"))),
+            "prefix:AP:~ literal:Lp0:₩ int:I4:1 int:I3:2 group:G3:, int:I2:9 int:I1:0 int:I0:0 suffix:AS:/mo",
+            render(Tokenizer.tokenize(number("₩12,900", "12900", prefix = "~", suffix = "/mo"))),
         )
     }
 
