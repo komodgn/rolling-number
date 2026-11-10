@@ -24,6 +24,11 @@ final class RollingModel: ObservableObject {
     func update(_ number: FormattedNumber) {
         session.update(number)
         syncAnimating()
+        // A format/locale change (or an animation-off replacement) swaps the content immediately
+        // without starting an animation, so `isAnimating` stays false and the `TimelineView` in
+        // `RollingCanvas` stays paused. Nothing would repaint until the next external re-render,
+        // which shows the change one interaction late. Nudge observers to redraw the new frame once.
+        if !isAnimating { objectWillChange.send() }
     }
 
     func syncAnimating() {
@@ -58,32 +63,47 @@ struct RollingCanvas: View {
     let fadeMaskHeight: CGFloat
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: nil, paused: !model.isAnimating)) { timeline in
-            let _ = model.step(timeline.date)
-            let frame = model.frame(tabular: tabularDigits)
-            let lineHeight = model.metrics.lineHeight
-            Canvas { context, _ in
-                for item in frame.items {
-                    for layer in item.layers where layer.alpha > 0 {
-                        var ctx = context
-                        ctx.opacity = layer.alpha
-                        let text = ctx.resolve(Text(verbatim: layer.text))
-                        ctx.draw(
-                            text,
-                            at: CGPoint(x: item.x + item.width / 2, y: lineHeight / 2 + layer.offsetY * lineHeight),
-                            anchor: .center
-                        )
-                    }
+        // Only mount `TimelineView(.animation)` while actually animating. A paused TimelineView still
+        // runs the animation scheduler and stays in the tree, which swallows the first tap of nearby
+        // controls (two-tap toggles) and keeps a resting canvas from repainting on a plain re-render.
+        // At rest we draw a plain Canvas that updates through normal SwiftUI invalidation.
+        Group {
+            if model.isAnimating {
+                TimelineView(.animation) { timeline in
+                    canvas(stepTo: timeline.date)
                 }
+            } else {
+                canvas(stepTo: nil)
             }
-            .frame(width: CGFloat(ceil(frame.totalWidth)), height: CGFloat(lineHeight))
-            .clipped()
-            .mask(FadeMask(height: fadeMaskHeight))
-            .background(GlyphMeasurer(strings: model.neededStrings(frame)))
         }
         .onPreferenceChange(GlyphSizesKey.self) { sizes in
             if sizes != model.metrics.sizes { model.metrics.sizes = sizes }
         }
+    }
+
+    @ViewBuilder
+    private func canvas(stepTo date: Date?) -> some View {
+        let _ = date.map { model.step($0) }
+        let frame = model.frame(tabular: tabularDigits)
+        let lineHeight = model.metrics.lineHeight
+        Canvas { context, _ in
+            for item in frame.items {
+                for layer in item.layers where layer.alpha > 0 {
+                    var ctx = context
+                    ctx.opacity = layer.alpha
+                    let text = ctx.resolve(Text(verbatim: layer.text))
+                    ctx.draw(
+                        text,
+                        at: CGPoint(x: item.x + item.width / 2, y: lineHeight / 2 + layer.offsetY * lineHeight),
+                        anchor: .center
+                    )
+                }
+            }
+        }
+        .frame(width: CGFloat(ceil(frame.totalWidth)), height: CGFloat(lineHeight))
+        .clipped()
+        .mask(FadeMask(height: fadeMaskHeight))
+        .background(GlyphMeasurer(strings: model.neededStrings(frame)))
     }
 }
 
