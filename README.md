@@ -112,6 +112,10 @@ RollingNumberGroup {
 
 Both platforms implement the same rules independently and verify parity by passing the same test cases in `fixtures/`. Build and test instructions are in the [quickstart](specs/001-rolling-number-display/quickstart.md).
 
+## Roadmap / possible future work
+
+- **Odometer-style counting.** An opt-in trend that scrolls through intermediate values (e.g. 2, 3 … 39 for 1 → 40) instead of sliding each digit straight from its old glyph to its new one. Not implemented today; it would need the motion engine to generate and scroll the in-between digit sequence. Not a committed promise — tracked here as a direction, not a schedule.
+
 ## License
 
-Not yet decided. (The POM in `android/rollingnumber/build.gradle.kts` temporarily declares Apache 2.0. Finalize this before publishing and add a `LICENSE` file.)
+Apache License 2.0. See [LICENSE](LICENSE). Copyright © komodgn.
