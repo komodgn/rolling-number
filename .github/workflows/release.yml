@@ -29,12 +29,20 @@ jobs:
           CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
         run: |
           cd build/staging-repo
+          # Central generates repository metadata itself; shipping maven-metadata.xml in the
+          # bundle makes the intake fail (HTTP 500). Keep only the version artifacts.
+          find . -name 'maven-metadata.xml*' -delete
           find . -type f \( -name '*.jar' -o -name '*.aar' -o -name '*.pom' -o -name '*.module' \) | while read f; do
             md5sum "$f" | cut -d' ' -f1 > "$f.md5"
             sha1sum "$f" | cut -d' ' -f1 > "$f.sha1"
           done
           zip -r ../central-bundle.zip io
-          curl --fail -X POST \
+          # Capture the response body and status. This prints only the server's response
+          # (no request headers, so the token is never echoed) and GitHub masks any secret.
+          code=$(curl -sS -o response.txt -w '%{http_code}' -X POST \
             -H "Authorization: Bearer ${CENTRAL_TOKEN}" \
             -F "bundle=@../central-bundle.zip" \
-            "https://central.sonatype.com/api/v1/publisher/upload?publishingType=USER_MANAGED"
+            "https://central.sonatype.com/api/v1/publisher/upload?publishingType=USER_MANAGED")
+          echo "HTTP $code"
+          echo "Response: $(cat response.txt)"
+          test "$code" -ge 200 -a "$code" -lt 300
